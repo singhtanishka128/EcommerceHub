@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.ecommerce.project.repositories.RoleRepository;
 
 import com.ecommerce.project.model.AppRole;
 import com.ecommerce.project.model.Role;
