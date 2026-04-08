@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.ecommerce.project.repositories.RoleRepository;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 
 import com.ecommerce.project.model.AppRole;
 import com.ecommerce.project.model.Role;
@@ -67,16 +69,18 @@ public class AuthController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
-                userDetails.getUsername(), roles, jwtToken);
+                userDetails.getUsername(), roles, jwtCookie.toString());
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,
+                        jwtCookie.toString())
+                .body(response);
     }
 
 

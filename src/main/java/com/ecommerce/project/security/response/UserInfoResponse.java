@@ -17,6 +17,12 @@ public class UserInfoResponse {
         return id;
     }
 
+    public UserInfoResponse(Long id, String username, List<String> roles) {
+        this.id = id;
+        this.username = username;
+        this.roles = roles;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
